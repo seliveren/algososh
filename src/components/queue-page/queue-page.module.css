@@ -1,0 +1,44 @@
+.mainContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0 170px 0;
+  gap: 12px;
+  align-items: start;
+}
+
+.resultContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  justify-content: center;
+  align-items: start;
+  padding-top: 48px;
+  flex-wrap: wrap;
+  max-width: 944px;
+  width: 100%;
+  margin: 0 auto;
+  max-height: 340px;
+  height: 100%;
+}
+
+.clearButton {
+  max-width: 119px;
+  width: 100%;
+  margin-left: 29px;
+}
+
+.addButton {
+  max-width: 121px;
+  width: 100%;
+}
+
+.deleteButton {
+  max-width: 108px;
+  width: 100%;
+}
+
+.inputField {
+  max-width: 377px;
+  width: 100%
+}

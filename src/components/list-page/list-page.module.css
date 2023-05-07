@@ -1,0 +1,60 @@
+.mainContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0 108px 0;
+  align-items: start;
+}
+
+.mainContainer:nth-child(2n) {
+  padding-top: 9px;
+}
+
+.nodesContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+}
+
+.arrowLast {
+  display: none;
+}
+
+.resultContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: start;
+  padding-top: 48px;
+  flex-wrap: wrap;
+  max-width: 944px;
+  width: 100%;
+  margin: 0 auto;
+  max-height: 340px;
+  height: 100%;
+}
+
+.clearButton {
+  max-width: 119px;
+  width: 100%;
+  margin-left: 29px;
+}
+
+.addButton {
+  max-width: 121px;
+  width: 100%;
+}
+
+.byIndexButton {
+  max-width: 362px;
+  width: 100%;
+}
+
+.inputField {
+  max-width: 204px;
+  width: 100%
+}
+
+.circle {
+  padding: 0 15px 0;
+}
