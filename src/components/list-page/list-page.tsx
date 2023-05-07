@@ -8,6 +8,16 @@ import {ElementStates} from "../../types/element-states";
 import {ArrowIcon} from "../ui/icons/arrow-icon";
 
 
+interface ILinkedList<T> {
+  addToTail: (element: number | null) => void;
+  deleteTail: () => void;
+  addToHead: (element: number | null) => void;
+  deleteHead: () => void;
+  addByIndex: (ind: number, value: number) => void;
+  deleteByIndex: (ind: number) => void;
+}
+
+
 export class Node<T> {
   value: number | null
   next: Node<number | null> | null
@@ -16,16 +26,6 @@ export class Node<T> {
     this.value = value;
     this.next = (next === undefined ? null : next);
   }
-}
-
-
-interface ILinkedList<T> {
-  addToTail: (element: number | null) => void;
-  deleteTail: () => void;
-  addToHead: (element: number | null) => void;
-  deleteHead: () => void;
-  addByIndex: (ind: number, value: number) => void;
-  deleteByIndex: (ind: number) => void;
 }
 
 
