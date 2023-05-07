@@ -220,7 +220,10 @@ export class ListPage<T> extends React.Component<{}, {
         current = current!.next;
 
         setTimeout(() => {
-          index == 0 ? this.setState({addingElMarkZero: true}) : this.setState({addingElMark: true, addingElMarkZero: false});
+          index == 0 ? this.setState({addingElMarkZero: true}) : this.setState({
+            addingElMark: true,
+            addingElMarkZero: false
+          });
           this.setState({currentIndex: index});
           this.setState({index: index});
           this.setState({colourElement: ElementStates.Changing});
