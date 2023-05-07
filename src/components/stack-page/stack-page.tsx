@@ -14,13 +14,13 @@ interface IStack<T> {
   getSize: () => number;
 }
 
-export class StackPage<T> extends React.Component<{}, { value: number | null, change: number, colour: ElementStates }> implements IStack<number> {
+export class StackPage<T> extends React.Component<{}, { value: number | null, change: number, colour: ElementStates, loading: boolean }> implements IStack<number> {
 
   private container: number[] = [];
 
   constructor(props: any) {
     super(props)
-    this.state = {value: null, change: 0, colour: ElementStates.Default};
+    this.state = {value: null, change: 0, colour: ElementStates.Default, loading: false};
     this.handleChange = this.handleChange.bind(this);
   };
 
@@ -49,6 +49,9 @@ export class StackPage<T> extends React.Component<{}, { value: number | null, ch
         this.setState({colour: ElementStates.Default});
       }, 500)
     }
+
+    this.setState({loading: true});
+    setTimeout(() => this.setState({loading: false}), 500);
   };
 
 
@@ -70,16 +73,25 @@ export class StackPage<T> extends React.Component<{}, { value: number | null, ch
         this.container.pop();
       }
     }
-  };
 
+    this.setState({change: -1});
+    this.setState({loading: true});
+    setTimeout(() => this.setState({loading: false}), 500);
+  };
 
   handleSubmit(e: { preventDefault: () => void; }) {
     e.preventDefault();
     console.log('submitted!');
     (document.getElementById("input") as HTMLInputElement).value = '';
     this.setState({value: null});
+
+    this.setState({loading: true});
+    setTimeout(() => this.setState({loading: false}), 500);
   };
 
+  allNull(array: (number | null)[]) {
+    return array.every(el => el === null);
+  }
 
   render() {
 
@@ -99,19 +111,19 @@ export class StackPage<T> extends React.Component<{}, { value: number | null, ch
                 this.handleSubmit(e);
               }}/>
               :
-              <Button extraClass={StackPageStyles.addButton} id={"addButton"} type={'submit'} text={'Добавить'} disabled={true}/>
+              <Button extraClass={StackPageStyles.addButton} id={"addButton"} type={'submit'} text={'Добавить'} isLoader={this.state.change === 1 && this.state.loading} disabled={true}/>
           }
 
-          {this.getSize() > 0 ?
-            <><Button extraClass={StackPageStyles.deleteButton} id={"deleteButton"} text={'Удалить'} onClick={() => this.pop()}/>
+          {this.allNull(this.container) || (this.state.change === 1 && this.state.loading) ?
+            <><Button extraClass={StackPageStyles.deleteButton} id={"deleteButton"} text={'Удалить'} onClick={() => this.pop()} disabled={true}/>
+              <Button extraClass={StackPageStyles.clearButton} text={'Очистить'} isLoader={this.state.change === -1 && this.state.loading} onClick={() => {
+                this.clear()
+              }} disabled={true}/></>
+            :
+            <><Button extraClass={StackPageStyles.deleteButton} isLoader={this.state.loading && this.state.change === 0} id={"deleteButton"} text={'Удалить'} onClick={() => this.pop()}/>
               <Button extraClass={StackPageStyles.clearButton} text={'Очистить'} onClick={() => {
                 this.clear()
               }}/></>
-            :
-            <><Button extraClass={StackPageStyles.deleteButton} id={"deleteButton"} text={'Удалить'} onClick={() => this.pop()} disabled={true}/>
-              <Button extraClass={StackPageStyles.clearButton} text={'Очистить'} onClick={() => {
-                this.clear()
-              }} disabled={true}/></>
           }
         </form>
 

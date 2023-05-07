@@ -14,7 +14,7 @@ interface IQueue<T> {
 }
 
 
-export class QueuePage<T> extends React.Component<{}, { value: number | null, change: number, colourHead: ElementStates, colourTail: ElementStates }> implements IQueue<number> {
+export class QueuePage<T> extends React.Component<{}, { value: number | null, change: number, colourHead: ElementStates, colourTail: ElementStates, loading: boolean }> implements IQueue<number> {
   private container: (number | null)[] = [null, null, null, null, null, null, null];
   private head = 0;
   private tail = -1;
@@ -22,7 +22,7 @@ export class QueuePage<T> extends React.Component<{}, { value: number | null, ch
 
   constructor(props: any) {
     super(props)
-    this.state = {value: null, change: 0, colourHead: ElementStates.Default, colourTail: ElementStates.Default};
+    this.state = {value: null, change: 0, colourHead: ElementStates.Default, colourTail: ElementStates.Default, loading: false};
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -42,11 +42,12 @@ export class QueuePage<T> extends React.Component<{}, { value: number | null, ch
     }
 
     for (let i = 0; i <= this.container.length; i++) {
+
       if (this.container[i] == null && i >= this.tail) {
         this.length++;
         this.container[i] = item;
         this.setState({colourTail: ElementStates.Changing});
-        setTimeout(() => this.setState({colourTail: ElementStates.Default}), 500)
+        setTimeout(() => this.setState({colourTail: ElementStates.Default}), 500);
         break;
       }
     }
@@ -76,6 +77,8 @@ export class QueuePage<T> extends React.Component<{}, { value: number | null, ch
     }
 
     this.setState({change: 0});
+    this.setState({loading: true});
+    setTimeout(() => this.setState({loading: false}), 500);
   };
 
   peak = (): number | null => {
@@ -99,21 +102,32 @@ export class QueuePage<T> extends React.Component<{}, { value: number | null, ch
     this.head = 0;
     this.tail = -1;
     this.isEmpty();
+
+    this.setState({loading: true});
+    setTimeout(() => this.setState({loading: false}), 500);
   };
 
   handleSubmit(e: { preventDefault: () => void; }) {
     e.preventDefault();
     (document.getElementById("input") as HTMLInputElement).value = '';
     this.setState({value: null});
+
+    this.setState({loading: true});
+    setTimeout(() => this.setState({loading: false}), 500);
   }
 
   containsNull(array: (number | null)[]) {
     return array.some(el => el == null);
   }
 
+  allNull(array: (number | null)[]) {
+    return array.every(el => el === null);
+  }
+
   isEmpty = () => this.length === 0;
 
   render() {
+
     return (
       <SolutionLayout title="Очередь">
 
@@ -128,20 +142,20 @@ export class QueuePage<T> extends React.Component<{}, { value: number | null, ch
                 <Button id={"addButton"} extraClass={QueuePageStyles.addButton} type={'submit'} text={'Добавить'} onClick={(e) => {
                   this.enqueue(this.state.value as number);
                   this.handleSubmit(e);
-                }}/> : <Button id={"addButton"} extraClass={QueuePageStyles.addButton} type={'submit'} text={'Добавить'} disabled={true}/>
+                }}/> : <Button id={"addButton"} isLoader={this.state.change === 1 && this.state.loading} extraClass={QueuePageStyles.addButton} type={'submit'} text={'Добавить'} disabled={true}/>
           }
 
           {
-            !this.isEmpty() ?
+            this.allNull(this.container) || (this.state.change === 1 && this.state.loading) ?
+              <><Button id={"deleteButton"} isLoader={this.state.loading && this.state.change === 0} extraClass={QueuePageStyles.deleteButton} text={'Удалить'} onClick={() => this.dequeue()} disabled={true}/>
+                <Button text={'Очистить'} isLoader={this.state.change !== 0 && this.state.change !== 1 && this.state.loading} extraClass={QueuePageStyles.clearButton} onClick={() => {
+                  this.clear()
+                }} disabled={true}/></>
+              :
               <><Button id={"deleteButton"} extraClass={QueuePageStyles.deleteButton} text={'Удалить'} onClick={() => this.dequeue()}/>
                 <Button text={'Очистить'} extraClass={QueuePageStyles.clearButton} onClick={() => {
                   this.clear()
                 }}/></>
-              :
-              <><Button id={"deleteButton"} extraClass={QueuePageStyles.deleteButton} text={'Удалить'} onClick={() => this.dequeue()} disabled={true}/>
-                <Button text={'Очистить'} extraClass={QueuePageStyles.clearButton} onClick={() => {
-                  this.clear()
-                }} disabled={true}/></>
           }
         </form>
 
