@@ -53,7 +53,7 @@ export const StringComponent: React.FC = () => {
       setStartIndex(null);
       setEndIndex(null);
       setIteration(-1);
-    }, 500 * (value.length - 1) + 50)
+    }, 500 * (value.length) + 50)
   }
 
 

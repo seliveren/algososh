@@ -26,7 +26,10 @@ export class StackPage<T> extends React.Component<{}, { value: number | null, ch
 
 
   handleChange(event: React.FormEvent<HTMLInputElement>) {
-    this.setState({value: Number((event.target as HTMLInputElement).value)});
+    (document.getElementById("input") as HTMLInputElement).value === '' ?
+      this.setState({value: null})
+      :
+      this.setState({value: Number((event.target as HTMLInputElement).value)});
   };
 
 
@@ -116,12 +119,12 @@ export class StackPage<T> extends React.Component<{}, { value: number | null, ch
 
           {this.allNull(this.container) || (this.state.change === 1 && this.state.loading) ?
             <><Button extraClass={StackPageStyles.deleteButton} id={"deleteButton"} text={'Удалить'} onClick={() => this.pop()} disabled={true}/>
-              <Button extraClass={StackPageStyles.clearButton} text={'Очистить'} isLoader={this.state.change === -1 && this.state.loading} onClick={() => {
+              <Button id={"clearButton"} extraClass={StackPageStyles.clearButton} text={'Очистить'} isLoader={this.state.change === -1 && this.state.loading} onClick={() => {
                 this.clear()
               }} disabled={true}/></>
             :
             <><Button extraClass={StackPageStyles.deleteButton} isLoader={this.state.loading && this.state.change === 0} id={"deleteButton"} text={'Удалить'} onClick={() => this.pop()}/>
-              <Button extraClass={StackPageStyles.clearButton} text={'Очистить'} onClick={() => {
+              <Button id={"clearButton"} extraClass={StackPageStyles.clearButton} text={'Очистить'} onClick={() => {
                 this.clear()
               }}/></>
           }

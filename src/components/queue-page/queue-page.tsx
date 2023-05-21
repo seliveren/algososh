@@ -27,8 +27,11 @@ export class QueuePage<T> extends React.Component<{}, { value: number | null, ch
   }
 
   handleChange(event: React.FormEvent<HTMLInputElement>) {
-    this.setState({value: Number((event.target as HTMLInputElement).value)});
-  }
+    (document.getElementById("input") as HTMLInputElement).value === '' ?
+      this.setState({value: null})
+      :
+      this.setState({value: Number((event.target as HTMLInputElement).value)});
+  };
 
   enqueue = (item: number) => {
     if (this.length > 7) {
@@ -105,6 +108,7 @@ export class QueuePage<T> extends React.Component<{}, { value: number | null, ch
 
     this.setState({loading: true});
     setTimeout(() => this.setState({loading: false}), 500);
+    console.log(this.container.length)
   };
 
   handleSubmit(e: { preventDefault: () => void; }) {
@@ -148,12 +152,12 @@ export class QueuePage<T> extends React.Component<{}, { value: number | null, ch
           {
             this.allNull(this.container) || (this.state.change === 1 && this.state.loading) ?
               <><Button id={"deleteButton"} isLoader={this.state.loading && this.state.change === 0} extraClass={QueuePageStyles.deleteButton} text={'Удалить'} onClick={() => this.dequeue()} disabled={true}/>
-                <Button text={'Очистить'} isLoader={this.state.change !== 0 && this.state.change !== 1 && this.state.loading} extraClass={QueuePageStyles.clearButton} onClick={() => {
+                <Button id={"clearButton"} text={'Очистить'} isLoader={this.state.change !== 0 && this.state.change !== 1 && this.state.loading} extraClass={QueuePageStyles.clearButton} onClick={() => {
                   this.clear()
                 }} disabled={true}/></>
               :
               <><Button id={"deleteButton"} extraClass={QueuePageStyles.deleteButton} text={'Удалить'} onClick={() => this.dequeue()}/>
-                <Button text={'Очистить'} extraClass={QueuePageStyles.clearButton} onClick={() => {
+                <Button id={"clearButton"} text={'Очистить'} extraClass={QueuePageStyles.clearButton} onClick={() => {
                   this.clear()
                 }}/></>
           }
