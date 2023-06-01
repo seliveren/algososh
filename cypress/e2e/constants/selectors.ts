@@ -1,0 +1,8 @@
+export const inputSelector = '[class^=input_]'
+export const circleSelector = '[class*=circle_circle]'
+export const addButtonSelector = '[id=addButton]'
+export const buttonSelector = '[id=button]'
+export const contentCircleSelector = '[class*=circle_content]'
+export const changingCircleSelector = '[class*=circle_changing]'
+export const clearButtonSelector = '[id=clearButton]'
+export const deleteButtonSelector = '[id=deleteButton]'

@@ -1,14 +1,17 @@
+import {changingCircleSelector, circleSelector, contentCircleSelector, inputSelector} from "../constants/selectors";
+
+
 describe('linked list page works correctly', function () {
   beforeEach(function () {
-    cy.visit('http://localhost:3000/list');
+    cy.visit('list');
   });
 
   it('buttons should be disabled if input is empty and active if it is not', function () {
 
-    cy.get('[class^=input_]').first().as('inputValue');
+    cy.get(inputSelector).first().as('inputValue');
     cy.get('@inputValue').should('have.value', '');
 
-    cy.get('[class^=input_]').eq(2).as('inputIndex');
+    cy.get(inputSelector).eq(2).as('inputIndex');
     cy.get('@inputIndex').should('have.value', '');
 
     cy.get('[id=addByIndex]').as('addByIndexButton');
@@ -48,10 +51,10 @@ describe('linked list page works correctly', function () {
 
   it('default list is present and is correct', function () {
 
-    cy.get('[class*=circle_circle]').first().as('firstCircle');
-    cy.get('[class*=circle_circle]').eq(1).as('secondCircle');
-    cy.get('[class*=circle_circle]').eq(2).as('thirdCircle');
-    cy.get('[class*=circle_circle]').eq(3).as('forthCircle');
+    cy.get(circleSelector).first().as('firstCircle');
+    cy.get(circleSelector).eq(1).as('secondCircle');
+    cy.get(circleSelector).eq(2).as('thirdCircle');
+    cy.get(circleSelector).eq(3).as('forthCircle');
 
     cy.get('@firstCircle').should('have.text', '0');
     cy.get('@secondCircle').should('have.text', '34');
@@ -62,8 +65,8 @@ describe('linked list page works correctly', function () {
 
   it('elements are added and deleted correctly', function () {
 
-    cy.get('[class^=input_]').first().as('inputValue');
-    cy.get('[class^=input_]').eq(2).as('inputIndex');
+    cy.get(inputSelector).first().as('inputValue');
+    cy.get(inputSelector).eq(2).as('inputIndex');
 
     cy.get('[id=addByIndex]').as('addByIndexButton');
     cy.get('[id=deleteByIndex]').as('deleteByIndexButton');
@@ -71,9 +74,9 @@ describe('linked list page works correctly', function () {
     cy.get('[id=addTail]').as('addTailButton');
     cy.get('[id=deleteHead]').as('deleteHeadButton');
     cy.get('[id=deleteTail]').as('deleteTailButton');
-    cy.get('[class*=circle_circle]').first().as('firstCircle');
-    cy.get('[class*=circle_circle]').eq(1).as('secondCircle');
-    cy.get('[class*=circle_content]').first().as('firstCircleContent');
+    cy.get(circleSelector).first().as('firstCircle');
+    cy.get(circleSelector).eq(1).as('secondCircle');
+    cy.get(contentCircleSelector).first().as('firstCircleContent');
 
     cy.get('@firstCircle').should('have.text', '0');
     cy.get('@secondCircle').should('have.text', '34');
@@ -83,7 +86,7 @@ describe('linked list page works correctly', function () {
 
     cy.get('@addHeadButton').click();
 
-    cy.get('[class*=circle_changing]').as('smallCircle');
+    cy.get(changingCircleSelector).as('smallCircle');
     cy.get('@firstCircleContent').children().contains('5');
 
     cy.get('@firstCircle').should('have.text', '5').and('have.css', 'border', '4px solid rgb(127, 224, 81)');
@@ -95,7 +98,7 @@ describe('linked list page works correctly', function () {
     cy.get('@deleteHeadButton').click();
 
     cy.get('@firstCircleContent').children().contains('5');
-    cy.get('[class*=circle_changing]').as('smallCircle');
+    cy.get(changingCircleSelector).as('smallCircle');
     cy.get('@firstCircle').should('have.text', '');
 
     cy.get('@firstCircle').should('have.text', '0');
@@ -108,12 +111,12 @@ describe('linked list page works correctly', function () {
 
     cy.get('@addTailButton').click();
 
-    cy.get('[class*=circle_circle]').eq(3).as('fourthCircle');
-    cy.get('[class*=circle_content]').eq(3).as('fourthCircleContent');
-    cy.get('[class*=circle_circle]').eq(4).as('fifthCircle');
-    cy.get('[class*=circle_content]').eq(4).as('fifthCircleContent');
+    cy.get(circleSelector).eq(3).as('fourthCircle');
+    cy.get(contentCircleSelector).eq(3).as('fourthCircleContent');
+    cy.get(circleSelector).eq(4).as('fifthCircle');
+    cy.get(contentCircleSelector).eq(4).as('fifthCircleContent');
 
-    cy.get('[class*=circle_changing]').as('smallCircle');
+    cy.get(changingCircleSelector).as('smallCircle');
     cy.get('@fourthCircleContent').children().contains('5');
 
     cy.get('@fifthCircle').should('have.text', '5').and('have.css', 'border', '4px solid rgb(127, 224, 81)');
@@ -127,7 +130,7 @@ describe('linked list page works correctly', function () {
     cy.get('@deleteTailButton').click();
 
     cy.get('@fifthCircleContent').children().contains('5');
-    cy.get('[class*=circle_changing]').as('smallCircle');
+    cy.get(changingCircleSelector).as('smallCircle');
     cy.get('@fifthCircle').should('have.text', '');
 
     cy.get('@fourthCircle').should('have.text', '1');
@@ -139,22 +142,22 @@ describe('linked list page works correctly', function () {
     //add by index
     cy.get('@inputValue').type('5');
     cy.get('@inputIndex').type('1');
-    cy.get('[class*=circle_content]').eq(1).as('secondCircleContent');
-    cy.get('[class*=circle_circle]').eq(2).as('thirdCircle');
-    cy.get('[class*=circle_content]').eq(2).as('thirdCircleContent');
-    cy.get('[class*=circle_circle]').eq(3).as('fourthCircle');
-    cy.get('[class*=circle_content]').eq(3).as('fourthCircleContent');
+    cy.get(contentCircleSelector).eq(1).as('secondCircleContent');
+    cy.get(circleSelector).eq(2).as('thirdCircle');
+    cy.get(contentCircleSelector).eq(2).as('thirdCircleContent');
+    cy.get(circleSelector).eq(3).as('fourthCircle');
+    cy.get(contentCircleSelector).eq(3).as('fourthCircleContent');
 
     cy.get('@addByIndexButton').click();
 
     cy.get('@secondCircleContent').children().contains('5');
     cy.get('@secondCircle').should('have.css', 'border', '4px solid rgb(210, 82, 225)');
-    cy.get('[class*=circle_changing]').as('smallCircle');
+    cy.get(changingCircleSelector).as('smallCircle');
     cy.get('@firstCircle').should('have.css', 'border', '4px solid rgb(210, 82, 225)');
 
     cy.get('@firstCircle').should('have.css', 'border', '4px solid rgb(210, 82, 225)');
     cy.get('@thirdCircleContent').children().contains('5');
-    cy.get('[class*=circle_changing]').as('smallCircle');
+    cy.get(changingCircleSelector).as('smallCircle');
     cy.get('@secondCircle').should('have.css', 'border', '4px solid rgb(210, 82, 225)');
     cy.get('@thirdCircle').should('have.css', 'border', '4px solid rgb(210, 82, 225)');
 

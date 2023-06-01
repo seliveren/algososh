@@ -1,13 +1,23 @@
+import {
+  addButtonSelector,
+  circleSelector,
+  clearButtonSelector,
+  contentCircleSelector,
+  deleteButtonSelector,
+  inputSelector
+} from "../constants/selectors";
+
+
 describe('stack page works correctly', function () {
   beforeEach(function () {
-    cy.visit('http://localhost:3000/stack');
+    cy.visit('stack');
   });
 
   it('button should be disabled if input is empty and active if it is not', function () {
 
-    cy.get('[class^=input_]').first().as('input');
+    cy.get(inputSelector).first().as('input');
     cy.get('@input').should('have.value', '');
-    cy.get('[id=addButton]').as('button');
+    cy.get(addButtonSelector).as('button');
     cy.get('@button').should('have.disabled', true);
 
     cy.get('@input').type('5');
@@ -21,9 +31,9 @@ describe('stack page works correctly', function () {
 
   it('if clear button is pressed the length of the stack is 0', function () {
 
-    cy.get('[class^=input_]').first().as('input');
-    cy.get('[id=addButton]').as('addButton');
-    cy.get('[id=clearButton]').as('clearButton');
+    cy.get(inputSelector).first().as('input');
+    cy.get(addButtonSelector).as('addButton');
+    cy.get(clearButtonSelector).as('clearButton');
 
     cy.get('@input').type('5');
     cy.get('@addButton').click();
@@ -43,15 +53,15 @@ describe('stack page works correctly', function () {
 
   it('elements are added and deleted correctly', function () {
 
-    cy.get('[class^=input_]').first().as('input');
-    cy.get('[id=addButton]').as('addButton');
-    cy.get('[id=deleteButton]').as('deleteButton');
+    cy.get(inputSelector).first().as('input');
+    cy.get(addButtonSelector).as('addButton');
+    cy.get(deleteButtonSelector).as('deleteButton');
 
     cy.get('@input').type('5');
     cy.get('@addButton').click();
 
-    cy.get('[class*=circle_content]').first().as('firstCircleContent');
-    cy.get('[class*=circle_circle]').first().as('firstCircle');
+    cy.get(contentCircleSelector).first().as('firstCircleContent');
+    cy.get(circleSelector).first().as('firstCircle');
 
     cy.get('@firstCircle').should('have.css', 'border', '4px solid rgb(210, 82, 225)');
     cy.get('@firstCircle').should('have.css', 'border', '4px solid rgb(0, 50, 255)');
@@ -60,8 +70,8 @@ describe('stack page works correctly', function () {
     cy.get('@input').type('7');
     cy.get('@addButton').click();
 
-    cy.get('[class*=circle_content]').eq(1).as('secondCircleContent');
-    cy.get('[class*=circle_circle]').eq(1).as('secondCircle');
+    cy.get(contentCircleSelector).eq(1).as('secondCircleContent');
+    cy.get(circleSelector).eq(1).as('secondCircle');
 
     cy.get('@secondCircle').should('have.css', 'border', '4px solid rgb(210, 82, 225)');
     cy.get('@secondCircle').should('have.css', 'border', '4px solid rgb(0, 50, 255)');
