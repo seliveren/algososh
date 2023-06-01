@@ -78,7 +78,6 @@ describe('linked list page works correctly', function () {
     cy.get('@firstCircle').should('have.text', '0');
     cy.get('@secondCircle').should('have.text', '34');
 
-
     //add to head
     cy.get('@inputValue').type('5');
 
@@ -87,12 +86,10 @@ describe('linked list page works correctly', function () {
     cy.get('[class*=circle_changing]').as('smallCircle');
     cy.get('@firstCircleContent').children().contains('5');
 
-
     cy.get('@firstCircle').should('have.text', '5').and('have.css', 'border', '4px solid rgb(127, 224, 81)');
     cy.get('@firstCircleContent').children().contains('head');
     cy.get('@secondCircle').should('have.text', '0');
     cy.get('@firstCircle').should('have.css', 'border', '4px solid rgb(0, 50, 255)');
-
 
     //delete from head
     cy.get('@deleteHeadButton').click();
@@ -155,13 +152,11 @@ describe('linked list page works correctly', function () {
     cy.get('[class*=circle_changing]').as('smallCircle');
     cy.get('@firstCircle').should('have.css', 'border', '4px solid rgb(210, 82, 225)');
 
-
     cy.get('@firstCircle').should('have.css', 'border', '4px solid rgb(210, 82, 225)');
     cy.get('@thirdCircleContent').children().contains('5');
     cy.get('[class*=circle_changing]').as('smallCircle');
     cy.get('@secondCircle').should('have.css', 'border', '4px solid rgb(210, 82, 225)');
     cy.get('@thirdCircle').should('have.css', 'border', '4px solid rgb(210, 82, 225)');
-
 
     cy.get('@secondCircle').should('have.css', 'border', '4px solid rgb(127, 224, 81)');
     cy.get('@secondCircle').should('have.text', '5');

@@ -13,7 +13,6 @@ describe('string page works correctly', function () {
     cy.get('@input').type('5');
     cy.get('@button').should('not.have.disabled', true);
 
-
     cy.get('@input').type('{backspace}');
     cy.get('@button').should('have.disabled', true);
 

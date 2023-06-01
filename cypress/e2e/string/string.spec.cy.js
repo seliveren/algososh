@@ -14,7 +14,6 @@ describe('string page works correctly', function () {
     cy.get('body').click(50, 50, {force: true})
     cy.get('@button').should('not.have.disabled', true);
 
-
     cy.get('@input').type('{backspace}{backspace}{backspace}{backspace}{backspace}');
     cy.get('body').click(50, 50, {force: true})
     cy.get('@button').should('have.disabled', true);

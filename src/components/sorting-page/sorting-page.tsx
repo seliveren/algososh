@@ -7,13 +7,16 @@ import SortingPageStyles from "../sorting-page/sorting-page.module.css";
 import {Column} from "../ui/column/column";
 import {ElementStates} from "../../types/element-states";
 
+type TSortingPageProps = {
+  initValues: number[];
+};
 
-export const SortingPage: React.FC = () => {
+export const SortingPage: React.FC<TSortingPageProps> = ({initValues}) => {
   const [sortingType, setSortingType] = React.useState<string>('selection');
   const [sortingDirection, setSortingDirection] = React.useState<string>('');
   const [loadingAsc, setLoadingAsc] = React.useState<boolean>(false);
   const [loadingDesc, setLoadingDesc] = React.useState<boolean>(false);
-  const [values, setValues] = React.useState<number[]>([85, 9, 93, 35, 80]);
+  const [values, setValues] = React.useState(initValues);
   const [iterationJ, setIterationJ] = React.useState<number | null>();
   const [iterationI, setIterationI] = React.useState<number | null>();
   const [mark, setMark] = React.useState<number | null>();
@@ -36,7 +39,6 @@ export const SortingPage: React.FC = () => {
     const temp = arr[firstIndex];
     arr[firstIndex] = arr[secondIndex];
     arr[secondIndex] = temp;
-    console.log('swapped!')
   };
 
 
@@ -101,7 +103,7 @@ export const SortingPage: React.FC = () => {
     setMark(2)
 
     setTimeout(() => {
-      sortingDirection == 'asc' ? setLoadingAsc(false) : setLoadingDesc(false)
+      sortingDirection === 'asc' ? setLoadingAsc(false) : setLoadingDesc(false)
       setIterationI(arr.length)
       setValues(arr);
     }, 1000 * (arr.length) + 50);
@@ -111,9 +113,11 @@ export const SortingPage: React.FC = () => {
 
   function bubbleSort(arr: number[]) {
 
-    for (let i = 0; i < arr.length - 1; i++) {
+    for (let i = 0; i < arr.length; i++) {
 
       setTimeout(() => {
+
+        setIterationI(i);
 
         for (let j = 0; j < arr.length - i - 1; j++) {
 
@@ -133,20 +137,19 @@ export const SortingPage: React.FC = () => {
         setGreenMark(arr[arr.length - 1 - i])
 
       }, 1000 * i)
-      sortingDirection == 'desc' ? setLastMark(arr[arr.length - 1 - i]) : setLastMark(0)
+      sortingDirection === 'desc' ? setLastMark(arr[arr.length - 1 - i]) : setLastMark(0)
     }
-
 
     setTimeout(() => {
       setValues(arr);
-      sortingDirection == 'asc' ? setLoadingAsc(false) : setLoadingDesc(false);
+      sortingDirection === 'asc' ? setLoadingAsc(false) : setLoadingDesc(false);
       setIterationI(arr.length)
     }, 1000 * (arr.length) + 100);
   }
 
 
   function sort(arr: number[]) {
-    sortingDirection == 'asc' ? setLoadingAsc(true) : setLoadingDesc(true);
+    sortingDirection === 'asc' ? setLoadingAsc(true) : setLoadingDesc(true);
     sortingType === 'bubble' ? bubbleSort(arr) : sortingType === 'selection' ? selectionSort(arr) : console.log('no sorting type selected');
   }
 
@@ -154,31 +157,33 @@ export const SortingPage: React.FC = () => {
   return (
     <SolutionLayout title="Сортировка массива">
       <div className={SortingPageStyles.mainContainer}>
-        <RadioInput value={'sorting'} name={'sortingType'} label={'Выбор'} onClick={() => {
+        <RadioInput data-testid="selection" value={'sorting'} name={'sortingType'} label={'Выбор'} onClick={() => {
           setSortingType('selection')
         }} defaultChecked/>
-        <RadioInput value={'bubble'} name={'sortingType'} label={'Пузырёк'} onClick={() => {
+        <RadioInput data-testid="bubble" value={'bubble'} name={'sortingType'} label={'Пузырёк'} onClick={() => {
           setSortingType('bubble')
         }}/>
-        <Button id={"ascButton"} text={'По возрастанию'} onClick={() => sort(values)} isLoader={loadingAsc}
+        <Button data-testid="ascButton" id={"ascButton"} text={'По возрастанию'} onClick={() => sort(values)}
+                isLoader={loadingAsc}
                 sorting={Direction.Ascending}/>
-        <Button id={"descButton"} text={'По убыванию'} onClick={() => sort(values)} isLoader={loadingDesc}
+        <Button data-testid="descButton" id={"descButton"} text={'По убыванию'} onClick={() => sort(values)}
+                isLoader={loadingDesc}
                 sorting={Direction.Descending}/>
         <Button text={'Новый массив'} onClick={() => randomArr()}/>
       </div>
 
-      <div id="result" className={SortingPageStyles.resultContainer}>
+      <div data-testid="result" id="result" className={SortingPageStyles.resultContainer}>
         {
           values.map((el, index) =>
             (loadingAsc || loadingDesc)
             &&
-            (iterationI == index || iterationJ == index)
+            (iterationI === index || iterationJ === index)
               ?
               <Column state={ElementStates.Changing} index={el} key={index}/> :
               <Column state={
-                (sortingType == 'selection' && index < iterationI!) ? ElementStates.Modified :
-                  sortingDirection == 'desc' && greenMark != null && (el <= greenMark! || el > greenMark!) ? ElementStates.Modified :
-                    sortingDirection == 'asc' && greenMark != null && (el >= greenMark! || index == lastMark!) ? ElementStates.Modified :
+                (sortingType === 'selection' && index < iterationI!) ? ElementStates.Modified :
+                  sortingDirection === 'desc' && greenMark != null && (el <= greenMark! || el > greenMark!) ? ElementStates.Modified :
+                    sortingDirection === 'asc' && greenMark != null && (el >= greenMark! || index === lastMark!) ? ElementStates.Modified :
                       ElementStates.Default} index={el}
                       key={index}/>)
         }
