@@ -334,12 +334,12 @@ export class ListPage<T> extends React.Component<{}, {
             this.state.value == null || (document.getElementById("inputValue") as HTMLInputElement).value.length > 4
               ?
               <>
-                <Button text={'Добавить в head'} isLoader={this.state.addingHeadMark} onClick={(e) => {
+                <Button id="addHead" text={'Добавить в head'} isLoader={this.state.addingHeadMark} onClick={(e) => {
                   this.addToHead(this.state.value);
                   this.handleSubmitValue(e);
                 }
                 } disabled={true}/>
-                <Button text={'Добавить в tail'} isLoader={this.state.addingTailMark} onClick={(e) => {
+                <Button id="addTail" text={'Добавить в tail'} isLoader={this.state.addingTailMark} onClick={(e) => {
                   this.addToTail(this.state.value);
                   this.handleSubmitValue(e);
                 }
@@ -347,13 +347,13 @@ export class ListPage<T> extends React.Component<{}, {
               </>
               :
               <>
-                <Button text={'Добавить в head'} isLoader={this.state.addingHeadMark} onClick={(e) => {
+                <Button id="addHead" text={'Добавить в head'} isLoader={this.state.addingHeadMark} onClick={(e) => {
                   this.addToHead(this.state.value);
                   this.handleSubmitValue(e);
                 }
                 }
                         disabled={this.state.addingTailMark || this.state.addingHeadMark || this.state.deletingTailMark || this.state.deletingHeadMark || this.state.deletingElMark || this.state.addingElMark}/>
-                <Button text={'Добавить в tail'} isLoader={this.state.addingTailMark} onClick={(e) => {
+                <Button id="addTail" text={'Добавить в tail'} isLoader={this.state.addingTailMark} onClick={(e) => {
                   this.addToTail(this.state.value);
                   this.handleSubmitValue(e);
                 }
@@ -362,11 +362,11 @@ export class ListPage<T> extends React.Component<{}, {
               </>
           }
 
-          <Button text={'Удалить из head'} isLoader={this.state.deletingHeadMark} onClick={() => {
+          <Button id="deleteHead" text={'Удалить из head'} isLoader={this.state.deletingHeadMark} onClick={() => {
             this.deleteHead()
           }}
                   disabled={this.isEmpty() || this.state.addingTailMark || this.state.addingHeadMark || this.state.deletingTailMark || this.state.deletingHeadMark || this.state.deletingElMark || this.state.addingElMark}/>
-          <Button text={'Удалить из tail'} isLoader={this.state.deletingTailMark} onClick={() => {
+          <Button id="deleteTail" text={'Удалить из tail'} isLoader={this.state.deletingTailMark} onClick={() => {
             this.deleteTail()
           }}
                   disabled={this.isEmpty() || this.state.addingTailMark || this.state.addingHeadMark || this.state.deletingHeadMark || this.state.deletingTailMark || this.state.deletingElMark || this.state.addingElMark}/>
@@ -381,14 +381,14 @@ export class ListPage<T> extends React.Component<{}, {
                  disabled={this.state.addingTailMark || this.state.addingHeadMark || this.state.deletingTailMark || this.state.deletingHeadMark || this.state.deletingElMark || this.state.addingElMark}/>
 
           {this.state.index == null || this.state.value == null || this.state.index < 0 || this.state.index > this.container.length - 1 || (document.getElementById("inputValue") as HTMLInputElement).value.length > 4 ?
-            <Button extraClass={ListPageStyles.byIndexButton} text={'Добавить по индексу'} onClick={(e) => {
+            <Button id="addByIndex" extraClass={ListPageStyles.byIndexButton} text={'Добавить по индексу'} onClick={(e) => {
               this.addByIndex(this.state.index as number, this.state.value as number);
               this.handleSubmitIndex(e);
               this.handleSubmitValue(e);
             }} disabled={true}/>
             :
             <Button isLoader={this.state.addingElMark} extraClass={ListPageStyles.byIndexButton}
-                    text={'Добавить по индексу'} onClick={(e) => {
+                    id="addByIndex" text={'Добавить по индексу'} onClick={(e) => {
               this.addByIndex(this.state.index as number, this.state.value as number);
               this.handleSubmitIndex(e);
               this.handleSubmitValue(e);
@@ -397,14 +397,14 @@ export class ListPage<T> extends React.Component<{}, {
           }
 
           {this.state.index == null || this.state.index < 0 || this.state.index > this.container.length - 1 || (document.getElementById("inputValue") as HTMLInputElement).value.length > 4 ?
-            <Button onClick={(e) => {
+            <Button id="deleteByIndex"  onClick={(e) => {
               this.deleteByIndex(this.state.index as number);
               this.handleSubmitIndex(e);
             }}
                     extraClass={ListPageStyles.byIndexButton} text={'Удалить по индексу'}
                     disabled={true}/>
             :
-            <Button isLoader={this.state.deletingElMark} onClick={(e) => {
+            <Button id="deleteByIndex"  isLoader={this.state.deletingElMark} onClick={(e) => {
               this.deleteByIndex(this.state.index as number);
               this.handleSubmitIndex(e);
             }}

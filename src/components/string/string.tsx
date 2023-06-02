@@ -53,7 +53,7 @@ export const StringComponent: React.FC = () => {
       setStartIndex(null);
       setEndIndex(null);
       setIteration(-1);
-    }, 500 * (value.length - 1) + 50)
+    }, 500 * (value.length) + 50)
   }
 
 
@@ -66,19 +66,20 @@ export const StringComponent: React.FC = () => {
     }
   }
 
-
   return (
     <SolutionLayout title="Строка">
 
       <form id="form" className={StringPageStyles.mainContainer} onSubmit={onSubmit}>
-        <Input type={"text"} id="input" isLimitText={true} maxLength={11}/>
+        <Input data-testid="input" type={"text"} id="input" isLimitText={true} maxLength={11}/>
         {(value.length > 11 || value.length < 1) ?
-          <Button extraClass={StringPageStyles.button} text={"Развернуть"} type={"submit"} id="button" disabled={true}/>
-          : <Button extraClass={StringPageStyles.button} text={"Развернуть"} type={"submit"} id="button"
+          <Button data-testid="button" extraClass={StringPageStyles.button} text={"Развернуть"} type={"submit"}
+                  id="button" disabled={true}/>
+          : <Button data-testid="button" extraClass={StringPageStyles.button} text={"Развернуть"} type={"submit"}
+                    id="button"
                     isLoader={loading}/>}
       </form>
 
-      <div className={StringPageStyles.resultContainer}>
+      <div data-testid="resultContainer" className={StringPageStyles.resultContainer}>
         {marker ?
           value.map((el: any, index: number) =>
             loading && (startIndex == index || endIndex == index) ?
